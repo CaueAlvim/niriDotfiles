@@ -1,14 +1,18 @@
 // This config is in the KDL format: https://kdl.dev
 // "/-" comments out the following node.
 
-// https://github.com/YaLTeR/niri/wiki/Configuration:-Outputs
+/********************
+ * MONITORS/OUTPUTS *
+ ********************/
 output "HDMI-A-1" {
     mode "1920x1080@71.910"
     scale 1
     transform "normal"
 }
 
-// https://github.com/YaLTeR/niri/wiki/Configuration:-Input
+/**********
+ * INPUTS *
+ **********/
 input {
     keyboard {
         xkb { 
@@ -16,15 +20,15 @@ input {
         }
     }
 }
-
-// https://github.com/YaLTeR/niri/wiki/Configuration:-Gestures
 gestures {
     hot-corners {
         off
   }
 }
 
-// https://github.com/YaLTeR/niri/wiki/Configuration:-Layout
+/**********
+ * LAYOUT *
+ **********/
 layout {
     // When to center a column when changing focus, options are:
     // "never", default behavior, focusing an off-screen column will keep at the left or right edge of the screen.
@@ -50,8 +54,6 @@ layout {
 
 //https://github.com/YaLTeR/niri/wiki/Configuration:-Miscellaneous
 spawn-at-startup "systemctl --user start hyprpolkitagent"
-spawn-at-startup "waybar"
-spawn-at-startup "hypridle"
 spawn-at-startup "swaync"
 spawn-at-startup "swww-daemon"
 spawn-at-startup "hyprsunset --temperature 4700"
@@ -60,14 +62,10 @@ prefer-no-csd
 
 screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 
-// https://github.com/YaLTeR/niri/wiki/Configuration:-Animations
-animations {
-    // off
-    // Slow down all animations. Values below 1 speed them up instead.
-    // slowdown 3.0
-}
 
-// https://github.com/YaLTeR/niri/wiki/Configuration:-Window-Rules
+/****************
+ * WINDOW RULES *
+ ****************/
 // Since there's no specific window stated below, it applies to all windows.
 window-rule {
     open-maximized true
@@ -77,14 +75,14 @@ window-rule {
 }
 
 window-rule {
-    match app-id=r#"kitty$"#
+    match app-id=r#"alacritty$"#
     open-maximized false
 }
 
 window-rule {
     match app-id=r#"swayimg$"#
     open-maximized false
-    open-floating false
+    open-floating true
 }
 
 window-rule {
@@ -93,9 +91,17 @@ window-rule {
     open-floating true
 }
 
+window-rule {
+    match app-id=r#"^thunar$"# title="File Operation Progress"
+    open-floating true
+}
+
+/*********
+ * BINDS *
+ *********/
 binds {
     Mod+Shift+C { center-column; }
-    Mod+Return hotkey-overlay-title="Open kitty" { spawn "kitty"; }
+    Mod+Return hotkey-overlay-title="Open terminal" { spawn "alacritty"; }
     Mod+R hotkey-overlay-title="Run fuzzel" { spawn "fuzzel"; }
     Mod+E hotkey-overlay-title="Run thunar" { spawn "thunar"; }
     Mod+Shift+B hotkey-overlay-title="Waybar toggle" { spawn "bash" "-c" "killall waybar || waybar"; }
@@ -154,7 +160,7 @@ binds {
 
     Print { screenshot; }
     Ctrl+Print { screenshot-screen; }
-    Alt+Print { screenshot-window; }
+    Shift+Print { screenshot-window; }
 
     // Applications such as remote-desktop clients and software KVM switches may
     // request that niri stops processing the keyboard shortcuts defined here
